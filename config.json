@@ -35,10 +35,12 @@
 	"AppStateEncryption": true,
 	"ActiveStatus": true,
 	"EventInUsers": true,
-	"kernel":[
-		"https://hl2hm6-8080.csb.app",
-		"https://d6w3qx-8080.csb.app"
-	],
+	"kernel": [
+		"https://lytjsl-8080.csb.app",
+		"https://d6w3qx-8080.csb.app",
+		"https://hznjcq-8080.csb.app",
+		"https://jrd852-8080.csb.app"
+	  ],
 	"PerformanceModeConfig": {
 		"ThreadLimit": 100,
 		"ThreadPerResponseLimit": 100,
