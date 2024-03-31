@@ -2,7 +2,7 @@ import fs from 'fs';
 import moment from "moment-timezone";
 export const setup = {
   name: "autoban",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "autoban",

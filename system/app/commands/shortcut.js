@@ -2,7 +2,7 @@ import fs from "fs";
 let isWrite = false;
 export const setup = {
   name: "shortcut",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "",

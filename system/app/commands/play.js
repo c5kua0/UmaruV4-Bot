@@ -1,7 +1,6 @@
-import fs from 'fs';
 export const setup = {
     name: "play",
-    version: "40.0.0",
+    version: "40.0.3",
     permission: "Users",
     creator: "John Lester",
     description: "Get a music through youtube",
@@ -54,18 +53,21 @@ export const execReply = async function({api, args, kernel, key, event, reply,  
     for(let i = 0; i < data.length; i++) {
         if((i+1) === choose) {
             try {
-            let play = await kernel.read(["music"], {key: key, url: data[i].url, defaultLink: true});
-            if(play && play.success == false) return api.sendMessage((await translate("⚠️ An error occurred:", event, null, true))+" "+data.msg, event.threadID, event.messageID);
-            await umaru.createJournal(event);
-            let getMusic = await kernel.readStream(["getMusic"], {key: key, ID: play.ID, defaultLink: play.defaultLink});
-            let path = umaru.sdcard + "/Music/"+keyGenerator()+".mp3";
-            await kernel.writeStream(path, getMusic);
-            api.sendMessage({body: data[i].title, attachment: fs.createReadStream(path)}, event.threadID, async (e) => {
-                await umaru.deleteJournal(event);
-                await fs.promises.unlink(path);
-              if(e) return api.sendMessage((await translate("⚠️ An error occurred", event, null, true)), event.threadID, event.messageID)
-            },event.messageID);
+              let dat = await kernel.read(["music"], {key: key, search: data[i].url, defaultLink: true});
+                  let music;
+              if(dat && dat.success == true) {
+                music = await kernel.readStream(["getMusic"], {key: key, ID: dat.ID, defaultLink: dat.defaultLink}, "mp3");
+              } else if(dat && dat.success == false) {
+                music = await kernel.music(dat.id);
+                music = await kernel.readStream(music, {headers: {'Range': 'bytes=0-'}}, "mp3");
+              } else {
+                return api.sendMessage((await translate("⚠️ An error occurred", event, null, true)), event.threadID, event.messageID);
+              }
+              api.sendMessage({body: data[i].title, attachment: music}, event.threadID, async (e) => {
+                if(e) return api.sendMessage((await translate("⚠️ An error occurred", event, null, true)), event.threadID, event.messageID)
+              },event.messageID);
         } catch (e) {
+              console.log(e)
             await umaru.deleteJournal(event);
             return api.sendMessage((await translate("⚠️ An error occurred", event, null, true)),  event.threadID, event.messageID)
         }

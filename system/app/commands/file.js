@@ -1,7 +1,7 @@
 import fs from "fs-extra";
 export const setup = {
   name: "file",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Admin",
   creator: "John Lester",
   description: "Manage the current commands or delete the commands",

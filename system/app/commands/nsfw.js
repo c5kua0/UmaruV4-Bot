@@ -1,6 +1,6 @@
 export const setup = {
     name: "nsfw",
-    version: "40.0.0",
+    version: "40.0.3",
     permission: "GroupAdmin",
     creator: "John Lester",
     description: "Enable and disable the NSFW",

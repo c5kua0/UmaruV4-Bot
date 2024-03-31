@@ -17,7 +17,7 @@ function r(e)
 }
 export const setup = {
   name: "system",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Administrator",
   creator: "John Lester",
   description: "Process Manager",

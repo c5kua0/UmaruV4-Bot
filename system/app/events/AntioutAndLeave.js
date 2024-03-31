@@ -7,7 +7,7 @@ export const setup = {
     description: "Prevent members from leaving the group and Leaving card when members kick or leave",
     screenshot: ["/media/antiout/screenshot/Screenshot_20231018_235657.jpg", "/media/leave/screenshot/Screenshot_20230903_093108.jpg", "/media/leave/screenshot/Screenshot_20230903_120008.jpg"]
   }
-  export const exec = async function({api, event, key, Users, umaru, keyGenerator, Threads, readImage, kernel, getAdminIDs, setData}) {
+  export const exec = async function({api, event, key, Users, umaru, keyGenerator, Threads, readImage, kernel}) {
     if(typeof umaru.data['threads'][event.threadID]['antiout'] === "undefined") {
         umaru.data['threads'][event.threadID]['antiout'] = true
       await umaru.save();
@@ -29,11 +29,7 @@ export const setup = {
      if(typeof filePath === "undefined") return getNone();
     if (umaru.data['threads'][event.threadID]['imageSrc'] === null) {
 try {
-    let data = await kernel.readStream(['leave'], {key: key, type: "leave2", username: await Users.getName(event.logMessageData.leftParticipantFbId), memberLength: event.participantIDs.length, useravatar: await Users.getImage(event.logMessageData.leftParticipantFbId), background: await readImage(background)});
-
-    await kernel.writeStream(umaru.sdcard + `/Pictures/${getKey}.jpg`, data);
-    return api.sendMessage({body: greet, attachment: fs.createReadStream(umaru.sdcard + `/Pictures/${getKey}.jpg`) }, event.threadID, (err) => {
-    if(fs.existsSync(umaru.sdcard + `/Pictures/${getKey}.jpg`)) fs.unlinkSync(umaru.sdcard + `/Pictures/${getKey}.jpg`);
+    return api.sendMessage({body: greet, attachment: await kernel.readStream(['leave'], {key: key, type: "leave2", username: await Users.getName(event.logMessageData.leftParticipantFbId), memberLength: event.participantIDs.length, useravatar: await Users.getImage(event.logMessageData.leftParticipantFbId), background: await readImage(background)}) }, event.threadID, (err) => {
     if(err) getNone()
     })
   }  catch {
@@ -41,10 +37,7 @@ try {
       }
     } else {
       try {
-    let data = await kernel.readStream(["leave"], {key: key, type: "leave1", username: await Users.getName(event.logMessageData.leftParticipantFbId), groupname: await Threads.getName(event.threadID), memberLength: event.participantIDs.length, groupavatar: await Threads.getImage(event.threadID),  useravatar: await Users.getImage(event.logMessageData.leftParticipantFbId), background: await readImage(background)});
-    await kernel.writeStream(umaru.sdcard + `/Pictures/${getKey}.jpg`, data)
-    return api.sendMessage({body: greet, attachment: fs.createReadStream(umaru.sdcard + `/Pictures/${getKey}.jpg`) }, event.threadID, (err) => {
-    if(fs.existsSync(umaru.sdcard + `/Pictures/${getKey}.jpg`)) fs.unlinkSync(umaru.sdcard + `/Pictures/${getKey}.jpg`);
+    return api.sendMessage({body: greet, attachment: await kernel.readStream(["leave"], {key: key, type: "leave1", username: await Users.getName(event.logMessageData.leftParticipantFbId), groupname: await Threads.getName(event.threadID), memberLength: event.participantIDs.length, groupavatar: await Threads.getImage(event.threadID),  useravatar: await Users.getImage(event.logMessageData.leftParticipantFbId), background: await readImage(background)}) }, event.threadID, (err) => {
     if(err) getNone()
     })
         }  catch {
@@ -60,11 +53,7 @@ try {
      if(typeof filePath === "undefined") return getNone();
     if (umaru.data['threads'][event.threadID]['imageSrc'] === null) {
     try {
-    let data = await kernel.readStream(['leave'], {key: key, type: "gifleave2", username: await Users.getName(event.logMessageData.leftParticipantFbId), memberLength: event.participantIDs.length, useravatar: await Users.getImage(event.logMessageData.leftParticipantFbId), background: await readImage(background)});
-
-    await kernel.writeStream(umaru.sdcard + `/Pictures/${getKey}.gif`, data);
-    return api.sendMessage({body: greet, attachment: fs.createReadStream(umaru.sdcard + `/Pictures/${getKey}.gif`) }, event.threadID, (err) => {
-    if(fs.existsSync(umaru.sdcard + `/Pictures/${getKey}.gif`)) fs.unlinkSync(umaru.sdcard + `/Pictures/${getKey}.gif`);
+    return api.sendMessage({body: greet, attachment: await kernel.readStream(['leave'], {key: key, type: "gifleave2", username: await Users.getName(event.logMessageData.leftParticipantFbId), memberLength: event.participantIDs.length, useravatar: await Users.getImage(event.logMessageData.leftParticipantFbId), background: await readImage(background)})}, event.threadID, (err) => {
     if(err) getNone()
     })
     }  catch {
@@ -72,10 +61,7 @@ try {
       }
     } else {
       try {
-    let data = await kernel.readStream(["leave"], {key: key, type: "gifleave1", username: await Users.getName(event.logMessageData.leftParticipantFbId), groupname: await Threads.getName(event.threadID), memberLength: event.participantIDs.length, groupavatar: await Threads.getImage(event.threadID),  useravatar: await Users.getImage(event.logMessageData.leftParticipantFbId), background: await readImage(background)});
-    await kernel.writeStream(umaru.sdcard + `/Pictures/${getKey}.gif`, data)
-    return api.sendMessage({body: greet, attachment: fs.createReadStream(umaru.sdcard + `/Pictures/${getKey}.gif`) }, event.threadID, (err) => {
-    if(fs.existsSync(umaru.sdcard + `/Pictures/${getKey}.gif`)) fs.unlinkSync(umaru.sdcard + `/Pictures/${getKey}.gif`);
+    return api.sendMessage({body: greet, attachment: await kernel.readStream(["leave"], {key: key, type: "gifleave1", username: await Users.getName(event.logMessageData.leftParticipantFbId), groupname: await Threads.getName(event.threadID), memberLength: event.participantIDs.length, groupavatar: await Threads.getImage(event.threadID),  useravatar: await Users.getImage(event.logMessageData.leftParticipantFbId), background: await readImage(background)})}, event.threadID, (err) => {
     if(err) getNone()
     })
         }  catch {

@@ -1,11 +1,11 @@
 export const setup = {
   name: "setnickname",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Change your group's or the person you tag's nickname.",
   category: "Group",
-  usages: ["[text]","[uid] [text] ", "[mention] [text]"],
+  usages: ["[text]","[userID] [text] ", "[mention] [text]"],
   cooldown: 5,
   isPrefix: true
 };

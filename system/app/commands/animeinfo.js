@@ -1,8 +1,6 @@
-import fs from 'fs';
-import axios from 'axios';
 export const setup = {
   name: "animeinfo",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Get a anime info",
@@ -26,15 +24,11 @@ export const execCommand = async function({api, event, key, kernel, umaru, args,
   }
   let msg = (await translate(`🌸 Title: {{1}}\n🌸 Overview: {{2}}\n🌸 Release date: {{3}}\n🌸 Rating: {{4}}`, event, null, true)).replace("{{1}}", data.title).replace("{{2}}", data.shortDescription).replace("{{3}}", data.startDate).replace("{{4}}", data.score);
   try {
-  let img = (await axios.get(data.thumbnail, {responseType: "stream"})).data;
-  let path = umaru.sdcard+"/Pictures/"+keyGenerator()+".jpg";
-  await kernel.writeStream(path, img);
-  return api.sendMessage({body: context+msg, attachment: fs.createReadStream(path)},event.threadID,async (err) => {
+  return api.sendMessage({body: context+msg, attachment: await kernel.readStream(data.thumbnail)},event.threadID,async (err) => {
     if(err) api.sendMessage(context+msg, event.threadID, event.messageID);
     await umaru.deleteJournal(event);
-    await fs.promises.unlink(path);
   }, event.messageID)
-  } catch {
+  } catch (e) {
     api.sendMessage(context+msg, event.threadID, async() => {
       await umaru.deleteJournal(event);
     },event.messageID);

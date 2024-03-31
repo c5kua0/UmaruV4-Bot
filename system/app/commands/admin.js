@@ -1,12 +1,12 @@
 import fs from "fs";
 export const setup = {
   name: "admin",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Tool for admin add/remove/list",
   category: "admin",
-  usages: ["add [uid]", "remove [uid]", "list"],
+  usages: ["add [userID]", "remove [userID]", "list"],
   mainScreenshot: ["/media/admin/screenshot/main.jpg"],
   screenshot: ["/media/admin/screenshot/add.jpg", "/media/admin/screenshot/remove.jpg", "/media/admin/screenshot/list.jpg"],
   cooldown: 5,

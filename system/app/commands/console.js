@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import fs from 'fs-extra';
 export const setup = {
   name: "console",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Administrator",
   creator: "John Lester",
   description: "View the live chat through console",

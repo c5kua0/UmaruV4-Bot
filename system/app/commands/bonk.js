@@ -1,15 +1,14 @@
-import fs from 'fs';
 export const setup = {
   name: "bonk",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Bonk someone using mention",
   category: "Image Generation",
   usages: [
-    "[uid]",
+    "[userID]",
     "[@mention]",
-    "[uid] [uid]",
+    "[userID] [userID]",
     "[@mention] [@mention]"
   ],
   mainScreenshot: ["/media/bonk/screenshot/main.jpg"],
@@ -18,7 +17,7 @@ export const setup = {
   isPrefix: true
 };
 export const domain = {"bonk": setup.name}
-export const execCommand = async function({api, event, key, kernel, umaru, args, keyGenerator, Users, prefix, context, usage}) {
+export const execCommand = async function({api, event, key, kernel, umaru, args, Users, prefix, context, usage}) {
   let mentions = Object.keys(event.mentions);
   if(mentions.length === 1) {mentions[1] = mentions[0]; mentions[0] = event.senderID;}
   if(args.length === 1 && /^[0-9]+$/.test(args[0])) {mentions[0] = event.senderID;mentions[1] = args[0];}
@@ -26,11 +25,7 @@ export const execCommand = async function({api, event, key, kernel, umaru, args,
   if(event.isGroup == false) {mentions[0] = event.senderID;mentions[1] = api.getCurrentUserID();}
   if(event.isGroup == true && mentions.length === 0) return usage(this, prefix, event);
   await umaru.createJournal(event);
-  let path = umaru.sdcard + "/Pictures/"+keyGenerator()+".jpg";
-  let image = await kernel.readStream(["bonk"], {key: key, senderID: await Users.getImage(mentions[0]), targetID: await Users.getImage(mentions[1])});
-  await kernel.writeStream(path, image);
-  return api.sendMessage({body: context, attachment: fs.createReadStream(path)}, event.threadID, async() => {
+  return api.sendMessage({body: context, attachment: await kernel.readStream(["bonk"], {key: key, senderID: await Users.getImage(mentions[0]), targetID: await Users.getImage(mentions[1])})}, event.threadID, async() => {
     await umaru.deleteJournal(event);
-    await fs.promises.unlink(path);
   }, event.messageID)
 }

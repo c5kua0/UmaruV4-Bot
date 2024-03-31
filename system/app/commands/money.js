@@ -1,11 +1,11 @@
 export const setup = {
   name: "money",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "View current balance",
   category: "Economy",
-  usages: ["","[uid]", "[mention]"],
+  usages: ["","[userID]", "[mention]"],
   cooldown: 10,
   isPrefix: true
 };

@@ -1,8 +1,6 @@
-import fs from 'fs';
-import axios from 'axios';
 export const setup = {
   name: "tiktok",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Get a tiktok video and audio",
@@ -14,7 +12,7 @@ export const setup = {
   isPrefix: true
 };
 export const domain = {"tiktok": setup.name}
-export const execCommand = async function({api, event, kernel, umaru, args, keyGenerator, context, key, prefix, usage, translate}) {
+export const execCommand = async function({api, event, kernel, umaru, args, context, key, prefix, usage, translate}) {
     try {
       let choice = (args[0] && args[0].toLowerCase() && typeof args[1] !== "undefined") ? args[0].toLowerCase(): "";
 
@@ -23,18 +21,14 @@ export const execCommand = async function({api, event, kernel, umaru, args, keyG
         await umaru.createJournal(event);
         let get = await kernel.read(["tikdl"], {key: key, url: args[1]});
         let res = get[0];
-        let video = (await axios.get(res.hd, { responseType: "stream" })).data;
-        let path = umaru.sdcard+"/Download/"+keyGenerator()+".mp4";
+        let video = await kernel.readStream(res.hd, "mp4");
         let msg = `❯ Title: ${res.title}\n❯ Author: ${res.author}`;
-        await kernel.writeStream(path, video);
-        let size = await kernel.size(path);
+        let size = await kernel.size(video);
         if(size >= 25) {
-          await fs.promises.unlink(path);
           await umaru.deleteJournal(event);
           return api.sendMessage((await translate("⚠️ An error occurred: The file could not be sent because it was larger than 25MB.", event, null, true)), event.threadID, event.messageID);
         }
-        return api.sendMessage({body: context+msg, attachment: fs.createReadStream(path)}, event.threadID, async() => {
-          await fs.promises.unlink(path);
+        return api.sendMessage({body: context+msg, attachment: video}, event.threadID, async() => {
           await umaru.deleteJournal(event);
         })
       } else if(choice == "audio") {
@@ -42,26 +36,21 @@ export const execCommand = async function({api, event, kernel, umaru, args, keyG
         await umaru.createJournal(event);
         let get = await kernel.read(["tikdl"], {key: key, url: args[1]});
         let res = get[0];
-        let audio = (await axios.get(res.audio, { responseType: "stream" })).data;
-        let path = umaru.sdcard+"/Download/"+keyGenerator()+".mp3";
+        let audio = await kernel.readStream(res.audio, "mp3");
         let msg = `❯ Title: ${res.title}\n❯ Author: ${res.author}`;
-        await kernel.writeStream(path, audio);
-        let size = await kernel.size(path);
+        let size = await kernel.size(audio);
         if(size >= 25) {
-          await fs.promises.unlink(path);
           await umaru.deleteJournal(event);
           return api.sendMessage((await translate("⚠️ An error occurred: The file could not be sent because it was larger than 25MB.", event, null, true)), event.threadID, event.messageID)
         }
-        return api.sendMessage({body: context+msg, attachment: fs.createReadStream(path)}, event.threadID, async() => {
-          await fs.promises.unlink(path);
+        return api.sendMessage({body: context+msg, attachment: audio}, event.threadID, async() => {
           await umaru.deleteJournal(event);
         });
       } else {
         return usage(this, prefix, event);
       }
 } catch (e) {
-  await umaru.deleteJournal(event);
-      console.log(e)
+    await umaru.deleteJournal(event);
     return api.sendMessage((await translate("⚠️ Error fetching TikTok data.", event, null, true)), event.threadID, event.messageID)
 }
 }

@@ -1,6 +1,6 @@
 export const setup = {
   name: "out",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Admin",
   creator: "John Lester",
   description: "Leave specific thread",

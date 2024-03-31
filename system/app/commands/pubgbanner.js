@@ -1,7 +1,6 @@
-import fs from 'fs';
 export const setup = {
   name: "pubgbanner",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Create a youtube banner game of PUBG cool",
@@ -13,7 +12,7 @@ export const setup = {
   isPrefix: true
 };
 export const domain = {"pubgbanner": setup.name}
-export const execCommand = async function({api, event, key, kernel, umaru, args, keyGenerator, Users, context,   prefix, usage}) {
+export const execCommand = async function({api, event, key, kernel, umaru, args, Users, context, prefix, usage}) {
   let text = args.join(" ");
   let text1 = "";
   let text2 = "";
@@ -28,11 +27,7 @@ export const execCommand = async function({api, event, key, kernel, umaru, args,
     return usage(this, prefix, event);
   }
   await umaru.createJournal(event);
-  let image = await kernel.readStream(["pubgbanner"], {key: key, text1: text1, text2: text2});
-  let path = umaru.sdcard + "/Pictures/"+keyGenerator()+".jpg";
-  await kernel.writeStream(path, image);
-  return api.sendMessage({body: context, attachment: fs.createReadStream(path)}, event.threadID, async() => {
+  return api.sendMessage({body: context, attachment: await kernel.readStream(["pubgbanner"], {key: key, text1: text1, text2: text2})}, event.threadID, async() => {
     await umaru.deleteJournal(event);
-    await fs.promises.unlink(path);
   }, event.messageID)
 }

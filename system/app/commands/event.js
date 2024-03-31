@@ -1,7 +1,7 @@
 import fs from "fs";
 export const setup = {
   name: "event",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Admin",
   creator: "John Lester",
   description: "Installing events",

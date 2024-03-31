@@ -1,7 +1,7 @@
 import fs from "fs-extra";
 export const setup = {
   name: "rankup",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Announce rankup for each group, user",
@@ -68,12 +68,9 @@ async function getCanvas() {
     let background = umaru.mainPath + "/media/rankup/enable/canvas/"+filePath;
     if(typeof filePath === "undefined") return getNone();
   try {
-let data = await kernel.readStream(['rankup'], {key: key, type: "canvas", profile: await Users.getImage(event.senderID), background: await readImage(background), threadID: keyGenerator(), senderID: keyGenerator()});
-await kernel.writeStream(umaru.sdcard + `/Pictures/${getKey}.jpg`, data)
 return api.sendMessage({body: umaru.config.Addons.Rankup.replace("{name}", (await Users.getName(event.senderID))).replace("{level}", newUmaru['level']), mentions: [{
 tag: await Users.getName(event.senderID), 
-id: event.senderID }], attachment: fs.createReadStream(umaru.sdcard + `/Pictures/${getKey}.jpg`) }, event.threadID, (err) => {
-if(fs.existsSync(umaru.sdcard + `/Pictures/${getKey}.jpg`)) fs.unlinkSync(umaru.sdcard + `/Pictures/${getKey}.jpg`);
+id: event.senderID }], attachment: await kernel.readStream(['rankup'], {key: key, type: "canvas", profile: await Users.getImage(event.senderID), background: await readImage(background), threadID: keyGenerator(), senderID: keyGenerator()})}, event.threadID, (err) => {
 if(err) getNone()
 })
   } catch {
@@ -87,12 +84,9 @@ let filePath = backgro[Math.floor(Math.random() * backgro.length)];
 let background = umaru.mainPath + "/media/rankup/enable/gifcanvas/"+filePath;
   try {
 if(typeof filePath === "undefined") return getNone();
-let data = await kernel.readStream(['rankup'], {key: key, type: "gifcanvas", profile: await Users.getImage(event.senderID), background: await readImage(background), threadID: keyGenerator(), senderID: keyGenerator()});
-await kernel.writeStream(umaru.sdcard + `/Pictures/${getKey}.gif`, data)
 return api.sendMessage({body: umaru.config.Addons.Rankup.replace("{name}", (await Users.getName(event.senderID))).replace("{level}", newUmaru['level']), mentions: [{
 tag: await Users.getName(event.senderID), 
-id: event.senderID }], attachment: fs.createReadStream(umaru.sdcard + `/Pictures/${getKey}.gif`) }, event.threadID, (err) => {
-if(fs.existsSync(umaru.sdcard + `/Pictures/${getKey}.gif`)) fs.unlinkSync(umaru.sdcard + `/Pictures/${getKey}.gif`);
+id: event.senderID }], attachment: await kernel.readStream(['rankup'], {key: key, type: "gifcanvas", profile: await Users.getImage(event.senderID), background: await readImage(background), threadID: keyGenerator(), senderID: keyGenerator()}) }, event.threadID, (err) => {
 if(err) getNone()
 })
   } catch {

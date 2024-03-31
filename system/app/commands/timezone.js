@@ -12,7 +12,7 @@ for(const item of moment.tz.names()) {
 };
 export const setup = {
     name: "timezone",
-    version: "40.0.0",
+    version: "40.0.3",
     permission: "Users",
     creator: "John Lester",
     description: "Change the timezone",

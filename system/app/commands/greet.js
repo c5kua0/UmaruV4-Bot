@@ -2,7 +2,7 @@ let id = ["237318537087806","237321127087547","237317790421214","237319140421079
 import moment from "moment-timezone";
 export const setup = {
   name: "greet",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "greet",

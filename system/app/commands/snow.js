@@ -1,7 +1,6 @@
-import fs from 'fs';
 export const setup = {
   name: "snow",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Create beautiful 3D snow text effect",
@@ -13,15 +12,11 @@ export const setup = {
   isPrefix: true
 };
 export const domain = {"snow": setup.name}
-export const execCommand = async function({api, event, key, kernel, umaru, args, keyGenerator, Users, context}) {
+export const execCommand = async function({api, event, key, kernel, umaru, args, Users, context}) {
   await umaru.createJournal(event);
   let text = args.join(" ");
   if(args.length === 0) text = await Users.getName(event.senderID);
-  let image = await kernel.readStream(["snow"], {key: key, text: text});
-  let path = umaru.sdcard + "/Pictures/"+keyGenerator()+".jpg";
-  await kernel.writeStream(path, image);
-  return api.sendMessage({body: context, attachment: fs.createReadStream(path)}, event.threadID, async() => {
+  return api.sendMessage({body: context, attachment: await kernel.readStream(["snow"], {key: key, text: text})}, event.threadID, async() => {
     await umaru.deleteJournal(event);
-    await fs.promises.unlink(path);
   }, event.messageID)
 }

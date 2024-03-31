@@ -1,7 +1,7 @@
 import moment from "moment-timezone";
 export const setup = {
   name: "user",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Admin",
   creator: "John Lester",
   description: "Ban or unban users",

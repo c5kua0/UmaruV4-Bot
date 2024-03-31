@@ -1,7 +1,6 @@
-import fs from 'fs';
 export const setup = {
   name: "music",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Get a music through youtube",
@@ -20,14 +19,18 @@ export const execCommand = async function({api, event, key, kernel, umaru, args,
   api.sendMessage((await translate("🔍 Searching", event, null, true))+" "+text, event.threadID, event.messageID);
   (event.attachments.length !== 0 && event.attachments[0].type == "share" && event.attachments[0].hasOwnProperty('title')) ? text = event.attachments[0].title: ""; 
   let data = await kernel.read(["music"], {key: key, search: text, defaultLink: true});
-  if(data && data.success == false) return api.sendMessage((await translate("⚠️ An error occurred:", event, null, true))+" "+data.msg, event.threadID, event.messageID);
+      let music;
+  if(data && data.success == true) {
+    music = await kernel.readStream(["getMusic"], {key: key, ID: data.ID, defaultLink: data.defaultLink}, "mp3");
+  } else if(data && data.success == false) {
+    music = await kernel.music(data.id);
+    music = await kernel.readStream(music, {headers: {'Range': 'bytes=0-'}}, "mp3");
+  } else {
+    return api.sendMessage((await translate("⚠️ An error occurred", event, null, true)), event.threadID, event.messageID);
+  }
     await umaru.createJournal(event);
-  let music = await kernel.readStream(["getMusic"], {key: key, ID: data.ID, defaultLink: data.defaultLink});
-  let path = umaru.sdcard + "/Music/"+keyGenerator()+".mp3";
-  await kernel.writeStream(path, music);
-  return api.sendMessage({body: context+data.title, attachment: fs.createReadStream(path)}, event.threadID, async(e) => {
+  return api.sendMessage({body: context+data.title, attachment: music}, event.threadID, async(e) => {
     await umaru.deleteJournal(event);
-    await fs.promises.unlink(path);
     if(e) return api.sendMessage((await translate("⚠️ An error occurred", event, null, true)), event.threadID, event.messageID)
   }, event.messageID)
 } catch (e) {

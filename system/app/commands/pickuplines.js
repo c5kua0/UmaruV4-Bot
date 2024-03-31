@@ -1,6 +1,6 @@
 export const setup = {
   name: "pickuplines",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Get a random pickuplines",

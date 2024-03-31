@@ -7,7 +7,7 @@ for(const item in langs) {
 
 export const setup = {
     name: "trans",
-    version: "40.0.0",
+    version: "40.0.3",
     permission: "Users",
     creator: "John Lester",
     description: "Text translation",

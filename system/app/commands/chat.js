@@ -1,6 +1,6 @@
 export const setup = {
   name: "chat",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Admin",
   creator: "John Lester",
   description: "Chat thread using bot",

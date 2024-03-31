@@ -1,15 +1,14 @@
-import fs from 'fs';
 export const setup = {
   name: "doublestonk",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Double stonk edit profile picture",
   category: "Image Generation",
   usages: [
-    "[uid]",
+    "[userID]",
     "[@mention]",
-    "[uid] [uid]",
+    "[userID] [userID]",
     "[@mention] [@mention]"
   ],
   mainScreenshot: ["/media/doublestonk/screenshot/main.jpg"],
@@ -26,11 +25,7 @@ export const execCommand = async function({api, event, key, kernel, umaru, args,
   if(event.isGroup == false) {mentions[0] = event.senderID;mentions[1] = api.getCurrentUserID();}
   if(event.isGroup == true && args.length === 0) return usage(this, prefix, event);
   await umaru.createJournal(event);
-  let path = umaru.sdcard + "/Pictures/"+keyGenerator()+".jpg";
-  let image = await kernel.readStream(["doublestonk"], {key: key, senderID: await Users.getImage(mentions[0]), targetID: await Users.getImage(mentions[1])});
-  await kernel.writeStream(path, image);
-  return api.sendMessage({body: context, attachment: fs.createReadStream(path)}, event.threadID, async() => {
+  return api.sendMessage({body: context, attachment: await kernel.readStream(["doublestonk"], {key: key, senderID: await Users.getImage(mentions[0]), targetID: await Users.getImage(mentions[1])})}, event.threadID, async() => {
     await umaru.deleteJournal(event);
-    await fs.promises.unlink(path);
   }, event.messageID)
 }

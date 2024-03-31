@@ -1,7 +1,7 @@
 import fs from "fs";
 export const setup = {
   name: "pair2",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "Khoa, John Lester",
   description: "pairing someone",

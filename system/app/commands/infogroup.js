@@ -1,7 +1,6 @@
-import fs from 'fs';
 export const setup = {
   name: "infogroup",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "D-Jukie, John Lester",
   description: "Create a group information card",
@@ -13,7 +12,7 @@ export const setup = {
   isPrefix: true
 };
 export const domain = {"infogroup": setup.name}
-export const execCommand = async function({api, event, key, kernel, umaru, args, keyGenerator, Users, Threads, getUsers, context}) {
+export const execCommand = async function({api, event, key, kernel, umaru, args, Users, Threads, getUsers, context}) {
   let text = args.join(" ");
   let data = await getUsers(event.threadID);
   let m = [];
@@ -33,11 +32,7 @@ export const execCommand = async function({api, event, key, kernel, umaru, args,
     }
   }
   await umaru.createJournal(event);
-  let image = await kernel.readStream(["infogroup"], { key: key, m: m, f: f, n: n, participants: event.participantIDs, admin: admin, messageCount: umaru.data.threads[event.threadID].messageCount, av1: await Users.getImage(admin[Math.floor(Math.random() * admin.length)]), av2: await Users.getImage(event.participantIDs[Math.floor(Math.random() * event.participantIDs.length)]), av3: await Users.getImage(event.participantIDs[Math.floor(Math.random() * event.participantIDs.length)]), tav1: await Threads.getImage(event.threadID), threadName: await Threads.getName(event.threadID), text: text})
-  let path = umaru.sdcard + "/Pictures/"+keyGenerator()+".jpg";
-  await kernel.writeStream(path, image);
-  return api.sendMessage({body: context, attachment: fs.createReadStream(path)}, event.threadID, async() => {
+  return api.sendMessage({body: context, attachment:  await kernel.readStream(["infogroup"], { key: key, m: m, f: f, n: n, participants: event.participantIDs, admin: admin, messageCount: umaru.data.threads[event.threadID].messageCount, av1: await Users.getImage(admin[Math.floor(Math.random() * admin.length)]), av2: await Users.getImage(event.participantIDs[Math.floor(Math.random() * event.participantIDs.length)]), av3: await Users.getImage(event.participantIDs[Math.floor(Math.random() * event.participantIDs.length)]), tav1: await Threads.getImage(event.threadID), threadName: await Threads.getName(event.threadID), text: text})}, event.threadID, async() => {
     await umaru.deleteJournal(event);
-    await fs.promises.unlink(path);
   }, event.messageID)
 }

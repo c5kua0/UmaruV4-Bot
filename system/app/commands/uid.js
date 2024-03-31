@@ -1,6 +1,6 @@
 export const setup = {
     name: "uid",
-    version: "40.0.0",
+    version: "40.0.3",
     permission: "Users",
     description: "Get userID",
     category: "General",

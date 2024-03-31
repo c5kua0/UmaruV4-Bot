@@ -1,11 +1,11 @@
 export const setup = {
   name: "setmoney",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Admin",
   creator: "John Lester",
   description: "Set the money",
   category: "system",
-  usages: ["[number]","[number] [uid] ", "[number] [mention]"],
+  usages: ["[number]","[number] [userID] ", "[number] [mention]"],
   cooldown: 10,
   isPrefix: true
 };

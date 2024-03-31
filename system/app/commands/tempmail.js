@@ -1,6 +1,6 @@
 export const setup = {
   name: "tempmail",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Temporary email address",

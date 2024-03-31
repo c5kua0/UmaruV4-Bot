@@ -1,6 +1,6 @@
 export const setup = {
   name: "daily",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Every day, you will receive 19011310000 coins!",

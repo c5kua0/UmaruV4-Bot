@@ -1,7 +1,6 @@
-import fs from "fs";
 export const setup = {
   name: "kanna",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "See pictures of baby dragons",
@@ -11,13 +10,9 @@ export const setup = {
   isPrefix: true
 }
 export const domain = {"kanna": setup.name};
-export const execCommand = async function({api, event, kernel, key, umaru, keyGenerator}) {
+export const execCommand = async function({api, event, kernel, key, umaru}) {
   await umaru.createJournal(event);
-  let image = await kernel.readStream(["kanna"], {key: key});
-  let path = umaru.sdcard+"/Pictures/"+keyGenerator()+".jpg";
-  await kernel.writeStream(path, image);
-  return api.sendMessage({body: "⚡️ Here's Kanna Photo", attachment: fs.createReadStream(path)}, event.threadID, async () => {
+  return api.sendMessage({body: "⚡️ Here's Kanna Photo", attachment: await kernel.readStream(["kanna"], {key: key})}, event.threadID, async () => {
     await umaru.deleteJournal(event);
-    await fs.promises.unlink(path);
   }, event.messageID)
 }

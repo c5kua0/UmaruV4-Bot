@@ -1,6 +1,6 @@
 export const setup = {
   name: "dashboard",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Admin",
   creator: "John Lester",
   description: "View dashboard url and key",

@@ -8,7 +8,6 @@ export const setup = {
   screenshot: ["/media/welcome/screenshot/Screenshot_20230903_093157.jpg"]
 }
 export const exec = async function({api, event, key, umaru, readImage, keyGenerator, kernel, Users, Threads}) {
-  let getKey = keyGenerator();
   let ownId = api.getCurrentUserID();
   if(umaru.data['AutoLeave']['Mode'] == false && event.logMessageData.addedParticipants.some(a => a.userFbId == ownId)) {
     let msg = `❑ Prefix: ${umaru.config.prefix}\n❑ Commands: ${umaru.client.allCommandsName.length}\n❑ Events: ${umaru.client.umaruEvents.length}\n❑ Users: ${umaru.allUserID.length}\n❑ Threads: ${umaru.allThreadID.length+umaru.allInactiveThreadID.length}\n\nThank you for using this bot, have fun using it.`;
@@ -61,12 +60,8 @@ export const exec = async function({api, event, key, umaru, readImage, keyGenera
          let background = umaru.mainPath + "/media/welcome/enable/canvas/"+filePath
        if(typeof filePath === "undefined") return getNone();
     if (umaru.data['threads'][event.threadID] && umaru.data['threads'][event.threadID]['imageSrc'] === null) {
-      try {
-     let data = await kernel.readStream(['welcome'], {key: key, type: "welcome2", username: event.logMessageData.addedParticipants[event.logMessageData.addedParticipants.length - 1].fullName, groupname: await Threads.getName(event.threadID), memberLength: event.participantIDs.length, useravatar: await Users.getImage(event.logMessageData.addedParticipants[event.logMessageData.addedParticipants.length - 1].userFbId), background: await readImage(background)});
-     await kernel.writeStream(umaru.sdcard + `/Pictures/${getKey}.jpg`, data)
-              
-  return api.sendMessage({body: Welcome, attachment: fs.createReadStream(umaru.sdcard + `/Pictures/${getKey}.jpg`) }, event.threadID, (err) => {
-   if(fs.existsSync(umaru.sdcard + `/Pictures/${getKey}.jpg`)) fs.unlinkSync(umaru.sdcard + `/Pictures/${getKey}.jpg`);
+      try {              
+  return api.sendMessage({body: Welcome, attachment: await kernel.readStream(['welcome'], {key: key, type: "welcome2", username: event.logMessageData.addedParticipants[event.logMessageData.addedParticipants.length - 1].fullName, groupname: await Threads.getName(event.threadID), memberLength: event.participantIDs.length, useravatar: await Users.getImage(event.logMessageData.addedParticipants[event.logMessageData.addedParticipants.length - 1].userFbId), background: await readImage(background)})}, event.threadID, (err) => {
    if(err) getNone()
   })
       } catch {
@@ -74,11 +69,7 @@ export const exec = async function({api, event, key, umaru, readImage, keyGenera
       }
     } else {
       try {
-  let data = await kernel.readStream(["welcome"], {key: key, type: "welcome1", username: event.logMessageData.addedParticipants[event.logMessageData.addedParticipants.length - 1].fullName, groupname: await Threads.getName(event.threadID), memberLength: event.participantIDs.length, groupavatar: await Threads.getImage(event.threadID),  useravatar: await Users.getImage(event.logMessageData.addedParticipants[event.logMessageData.addedParticipants.length - 1].userFbId), background: await readImage(background)});
-  await kernel.writeStream(umaru.sdcard + `/Pictures/${getKey}.jpg`, data)
-
-  return api.sendMessage({body: Welcome, attachment: fs.createReadStream(umaru.sdcard + `/Pictures/${getKey}.jpg`) }, event.threadID, (err) => {
-   if(fs.existsSync(umaru.sdcard + `/Pictures/${getKey}.jpg`)) fs.unlinkSync(umaru.sdcard + `/Pictures/${getKey}.jpg`);
+  return api.sendMessage({body: Welcome, attachment: await kernel.readStream(["welcome"], {key: key, type: "welcome1", username: event.logMessageData.addedParticipants[event.logMessageData.addedParticipants.length - 1].fullName, groupname: await Threads.getName(event.threadID), memberLength: event.participantIDs.length, groupavatar: await Threads.getImage(event.threadID),  useravatar: await Users.getImage(event.logMessageData.addedParticipants[event.logMessageData.addedParticipants.length - 1].userFbId), background: await readImage(background)})}, event.threadID, (err) => {
    if(err) getNone()
   })
         } catch {
@@ -94,11 +85,7 @@ export const exec = async function({api, event, key, umaru, readImage, keyGenera
        if(typeof filePath === "undefined") return getNone();
     if (umaru.data['threads'][event.threadID]&& umaru.data['threads'][event.threadID]['imageSrc'] === null) {
       try {
-     let data = await kernel.readStream(['welcome'], {key: key, type: "gifwelcome2", username: event.logMessageData.addedParticipants[event.logMessageData.addedParticipants.length - 1].fullName, groupname: await Threads.getName(event.threadID), memberLength: event.participantIDs.length, useravatar: await Users.getImage(event.logMessageData.addedParticipants[event.logMessageData.addedParticipants.length - 1].userFbId), background: await readImage(background)});
-     await kernel.writeStream(umaru.sdcard + `/Pictures/${getKey}.gif`, data)
-
-    return api.sendMessage({body: Welcome, attachment: fs.createReadStream(umaru.sdcard + `/Pictures/${getKey}.gif`) }, event.threadID, (err) => {
-    if(fs.existsSync(umaru.sdcard + `/Pictures/${getKey}.gif`)) fs.unlinkSync(umaru.sdcard + `/Pictures/${getKey}.gif`);
+    return api.sendMessage({body: Welcome, attachment: await kernel.readStream(['welcome'], {key: key, type: "gifwelcome2", username: event.logMessageData.addedParticipants[event.logMessageData.addedParticipants.length - 1].fullName, groupname: await Threads.getName(event.threadID), memberLength: event.participantIDs.length, useravatar: await Users.getImage(event.logMessageData.addedParticipants[event.logMessageData.addedParticipants.length - 1].userFbId), background: await readImage(background)}) }, event.threadID, (err) => {
     if(err) getNone()
     })
       } catch {
@@ -106,11 +93,7 @@ export const exec = async function({api, event, key, umaru, readImage, keyGenera
       }
     } else {
       try {
-    let data = await kernel.readStream(["welcome"], {key: key, type: "gifwelcome1", username: event.logMessageData.addedParticipants[event.logMessageData.addedParticipants.length - 1].fullName, groupname: await Threads.getName(event.threadID), memberLength: event.participantIDs.length, groupavatar: await Threads.getImage(event.threadID),  useravatar: await Users.getImage(event.logMessageData.addedParticipants[event.logMessageData.addedParticipants.length - 1].userFbId), background: await readImage(background)});
-    await kernel.writeStream(umaru.sdcard + `/Pictures/${getKey}.gif`, data)
-
-    return api.sendMessage({body: Welcome, attachment: fs.createReadStream(umaru.sdcard + `/Pictures/${getKey}.gif`) }, event.threadID, (err) => {
-    if(fs.existsSync(umaru.sdcard + `/Pictures/${getKey}.gif`)) fs.unlinkSync(umaru.sdcard + `/Pictures/${getKey}.gif`);
+    return api.sendMessage({body: Welcome, attachment: await kernel.readStream(["welcome"], {key: key, type: "gifwelcome1", username: event.logMessageData.addedParticipants[event.logMessageData.addedParticipants.length - 1].fullName, groupname: await Threads.getName(event.threadID), memberLength: event.participantIDs.length, groupavatar: await Threads.getImage(event.threadID),  useravatar: await Users.getImage(event.logMessageData.addedParticipants[event.logMessageData.addedParticipants.length - 1].userFbId), background: await readImage(background)}) }, event.threadID, (err) => {
     if(err) getNone()
     })
         } catch {

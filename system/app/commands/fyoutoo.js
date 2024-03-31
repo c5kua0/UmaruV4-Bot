@@ -1,7 +1,7 @@
 import fs from 'fs';
 export const setup = {
   name: "fyoutoo",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "fyoutoo",

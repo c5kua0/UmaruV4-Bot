@@ -1,12 +1,12 @@
 export const setup = {
     name: "adduser",
-    version: "40.0.0",
+    version: "40.0.3",
     permission: "Users",
     creator: "John Lester",
     description: "Add user to the group chat",
     category: "General",
     usages: [
-        "[uid]",
+        "[userID]",
         "[fburl]"
     ],
     mainScreenshot: ["/media/adduser/screenshot/main.jpg"],

@@ -31,6 +31,8 @@ export const log = function(optional, text) {
      return console.log(`${chalk.hex(timeColor)("["+time+"]")} `+chalk.bold.rgb(...rgb()).bold(`[ ${optional} ] » `) + chalk.hex("#FFFFFF")(`${text}`))
       }
 }
+export const allColor = colors;
+export const timeColors = timeColor; 
 export const logValue = function(optional, text) {
     let time = moment.tz(timeZone).format("HH:mm:ss");
     if(!text) return (`${chalk.hex(timeColor)("["+time+"]")} `+chalk.bold.hex("#FF0000").bold(`[ Error ] » `) + chalk.hex("#FFFFFF")(`${optional}`))
@@ -86,7 +88,7 @@ export const umaru = function(text) {
   let B = meta[2]
   if(!text) return console.log(`${chalk.hex(timeColor)("["+time+"]")} `+chalk.bold.hex("#FF0000").bold(`[ Error ] » `) + chalk.hex("#FFFFFF")(`${text}`))
   if (text) if(text.toLowerCase().includes("installing")) return console.log(`${chalk.hex(timeColor)("["+time+"]")} `+chalk.bold.rgb(R, G, B).bold(`[ Umaru ] » `) + text)
- 
+
  return console.log(`${chalk.hex(timeColor)("["+time+"]")} `+chalk.bold.rgb(...rgb()).bold(`[ Umaru ] » `) + chalk.hex("#FFFFFF")(`${text}`))
 
 }

@@ -1,13 +1,11 @@
-import fs from 'fs';
-import axios from 'axios';
 export const setup = {
     name: "stalk",
-    version: "40.0.0",
+    version: "40.0.3",
     permission: "Users",
     creator: "John Lester",
     description: "View a facebook user information",
     category: "Info",
-    usages: ["", "[@mention]", "[uid]", "[fburl]"],
+    usages: ["", "[@mention]", "[userID]", "[fburl]"],
     cooldown: 5,
     isPrefix: true
   };
@@ -19,11 +17,8 @@ export const setup = {
     let view = `❯ Name: ${info.name}\n❯ ID: ${info.id}\n❯ Birthday: ${info.birthday}\n❯ Age: ${info.age}\n❯ Gender: ${info.gender.replace(info.gender[0], info.gender[0].toUpperCase())}\n❯ Hometown: ${info.hometown}\n❯ Location: ${info.location}\n❯ Relationship: ${info.relationship_status}${(info.love && info.love.name) ? `\n❯ ${info.relationship_status} with ${info.love.name}`:""}\n❯ Followers: ${info.follow}\n❯ Link: ${info.link}`;
     let path = umaru.sdcard+"/Pictures/"+keyGenerator()+".jpg";
     try {
-    let { data } = await axios.get(`https://graph.facebook.com/${info.id}/picture?width=1500&height=1500&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, {responseType: "stream"});
-    await kernel.writeStream(path, data);
-    return api.sendMessage({body: view, attachment: fs.createReadStream(path)}, event.threadID, async(err) => {
+    return api.sendMessage({body: view, attachment: await kernel.readStream(`https://graph.facebook.com/${info.id}/picture?width=1500&height=1500&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`)}, event.threadID, async(err) => {
       if(err) return api.sendMessage({body: view}, event.threadID, event.messageID);
-      await fs.promises.unlink(path);
     },event.messageID)
     } catch {
       return api.sendMessage({body: view}, event.threadID, event.messageID);

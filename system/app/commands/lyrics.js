@@ -1,8 +1,6 @@
-import fs from 'fs';
-import axios from 'axios';
 export const setup = {
   name: "lyrics",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Get a lyrics",
@@ -14,7 +12,7 @@ export const setup = {
   isPrefix: true
 };
 export const domain = {"lyrics": setup.name}
-export const execCommand = async function({api, event, key, kernel, umaru, args, keyGenerator, context,   prefix, usage, translate}) {
+export const execCommand = async function({api, event, key, kernel, umaru, args, context, prefix, usage, translate}) {
     try {
         if(args.length === 0) return usage(this, prefix, event)
   let text = args.join(" ");
@@ -23,7 +21,6 @@ export const execCommand = async function({api, event, key, kernel, umaru, args,
   let data = await kernel.read(["lyrics"], {key: key, title: text});
   if(data && data.error) return api.sendMessage((await translate("⚠️ An error occurred:", event, null, true))+" "+data.error, event.threadID, event.messageID);
   let msg = `🎵 Title: ${data.title}\n👤 Artist: ${data.artist}\n🎼 Lyrics: ${data.lyrics}`;
-  let path = umaru.sdcard+"/Pictures/"+keyGenerator()+".jpg";
   return api.sendMessage({body: context+msg}, event.threadID, async(e) => {
     await umaru.deleteJournal(event);
   }, event.messageID)

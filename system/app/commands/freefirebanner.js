@@ -1,7 +1,6 @@
-import fs from 'fs';
 export const setup = {
   name: "freefirebanner",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Make your own Free Fire Youtube banner",
@@ -28,11 +27,7 @@ export const execCommand = async function({api, event, key, kernel, umaru, args,
     return usage(this, prefix, event);
   }
   await umaru.createJournal(event);
-  let image = await kernel.readStream(["freefirebanner"], {key: key, text1: text1, text2: text2});
-  let path = umaru.sdcard + "/Pictures/"+keyGenerator()+".jpg";
-  await kernel.writeStream(path, image);
-  return api.sendMessage({body: context, attachment: fs.createReadStream(path)}, event.threadID, async() => {
+  return api.sendMessage({body: context, attachment: await kernel.readStream(["freefirebanner"], {key: key, text1: text1, text2: text2})}, event.threadID, async() => {
     await umaru.deleteJournal(event);
-    await fs.promises.unlink(path);
   }, event.messageID)
 }

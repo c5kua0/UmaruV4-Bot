@@ -7,7 +7,7 @@ for(const item in langs) {
 import fs from "fs";
 export const setup = {
     name: "language",
-    version: "40.0.0",
+    version: "40.0.3",
     permission: "Users",
     creator: "John Lester",
     description: "Change the language",

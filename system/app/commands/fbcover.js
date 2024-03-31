@@ -1,7 +1,6 @@
-import fs from 'fs';
 export const setup = {
   name: "fbcover",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Create a custom facebook cover.",
@@ -13,7 +12,7 @@ export const setup = {
   isPrefix: true
 };
 export const domain = {"fbcover": setup.name}
-export const execCommand = async function({api, event, key, kernel, umaru, args, keyGenerator, Users, getUsers, context, reply, translate}) {
+export const execCommand = async function({api, event, reply, translate}) {
   let { ID } = await reply.read({
       name: this.setup.name,
       author: event.senderID
@@ -29,12 +28,11 @@ export const execCommand = async function({api, event, key, kernel, umaru, args,
       await reply.create(ctx);
   }, event.messageID)
 }
-export const execReply = async function({api, args, kernel, key, event, reply,   umaru, keyGenerator, translate, Users, context}) {
+export const execReply = async function({api, kernel, key, event, reply, umaru, Users, context}) {
   let ctx = {
     name: this.setup.name,
     author: event.senderID
   }
-  let { data } = await reply.read(ctx);
   let { ID } = await reply.read(ctx);
   api.unsendMessage(ID);
   let form = event.body.split(/\n+/).map(a => a = a.replace(/❯(.*?):/g, "").trim());
@@ -46,11 +44,7 @@ export const execReply = async function({api, args, kernel, key, event, reply,  
   let email = (form[5]) ? form[5]:none;
   let color = (form[6]) ? form[6]:"White";
   await umaru.createJournal(event);
-  let image = await kernel.readStream(["fbcover"], { key: key, avt: await Users.getImage(event.senderID), name: name, subname: subname, number: num, address: address, email: email, color: color});
-  let path = umaru.sdcard + "/Pictures/"+keyGenerator()+".jpg";
-  await kernel.writeStream(path, image);
-  return api.sendMessage({body: context+`❯ Name: ${name}\n❯ Subname: ${subname}\n❯ Number: ${num}\n❯ Address: ${address}\n❯ Email: ${email}\n❯ Color: ${color}`, attachment: fs.createReadStream(path)}, event.threadID, async() => {
+  return api.sendMessage({body: context+`❯ Name: ${name}\n❯ Subname: ${subname}\n❯ Number: ${num}\n❯ Address: ${address}\n❯ Email: ${email}\n❯ Color: ${color}`, attachment: await kernel.readStream(["fbcover"], { key: key, avt: await Users.getImage(event.senderID), name: name, subname: subname, number: num, address: address, email: email, color: color})}, event.threadID, async() => {
     await umaru.deleteJournal(event);
-    await fs.promises.unlink(path);
   })
 }

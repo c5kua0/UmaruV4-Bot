@@ -1,6 +1,6 @@
 export const setup = {
   name: "allgroup",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Admin",
   creator: "John Lester",
   description: "Lists of thread",
@@ -22,8 +22,7 @@ export const execCommand = async function({api, event, args, Threads, umaru}) {
      thread.push(`${count}. ${await Threads.getName(item)}\n🔰 𝐓𝐈𝐃: ${item}`);
   }
   let page = parseInt(args[0]) || 1;
-  let num = 50
-  let i = 1 + page * num - 10;
+  let num = 50;
   let cut = page * num - num;
   thread = thread.slice(cut, cut + num)
   let msg = `✨ There are currently ${umaru.allThreadID.length} groups\n\n${thread.join("\n")}\n\nPage: ${page}/${Math.ceil(umaru.allThreadID.length / num)}`;

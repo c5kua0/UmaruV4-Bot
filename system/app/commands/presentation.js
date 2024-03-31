@@ -1,7 +1,6 @@
-import fs from 'fs';
 export const setup = {
   name: "presentation",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "Presentation text",
@@ -15,14 +14,10 @@ export const setup = {
   isPrefix: true
 };
 export const domain = {"presentation": setup.name}
-export const execCommand = async function({api, event, key, kernel, umaru, args, keyGenerator, prefix, context, usage}) {
-  await umaru.createJournal(event);
+export const execCommand = async function({api, event, key, kernel, umaru, args, prefix, context, usage}) {
   if(args.length === 0) return usage(this, prefix, event);
-  let path = umaru.sdcard + "/Pictures/"+keyGenerator()+".jpg";
-  let image = await kernel.readStream(["presentation"], {key: key, text: args.join(" ")});
-  await kernel.writeStream(path, image);
-  return api.sendMessage({body: context, attachment: fs.createReadStream(path)}, event.threadID, async() => {
+  await umaru.createJournal(event);
+  return api.sendMessage({body: context, attachment: await kernel.readStream(["presentation"], {key: key, text: args.join(" ")})}, event.threadID, async() => {
     await umaru.deleteJournal(event);
-    await fs.promises.unlink(path);
   }, event.messageID)
 }

@@ -5,7 +5,7 @@ let items = {};
 let alCmd = {};
 export const setup = {
   name: "menu",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Users",
   creator: "John Lester",
   description: "View the details of the commands.",

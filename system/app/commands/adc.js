@@ -2,7 +2,7 @@ import fs from "fs";
 import axios from "axios";
 export const setup = {
   name: "adc",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "Admin",
   creator: "John Lester",
   description: "Apply code to pastebin",

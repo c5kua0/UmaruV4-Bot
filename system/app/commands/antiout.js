@@ -1,6 +1,6 @@
 export const setup = {
     name: "antiout",
-    version: "40.0.0",
+    version: "40.0.3",
     permission: "GroupAdmin",
     creator: "John Lester",
     description: "Prevent members from leaving the group",

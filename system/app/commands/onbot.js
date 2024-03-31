@@ -1,6 +1,6 @@
 export const setup = {
   name: "onbot",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "GroupAdmin",
   creator: "John Lester",
   description: "onbot to the group",

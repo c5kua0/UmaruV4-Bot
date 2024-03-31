@@ -1,6 +1,6 @@
 export const setup = {
   name: "members",
-  version: "40.0.0",
+  version: "40.0.3",
   permission: "GroupAdmin",
   creator: "John Lester",
   description: "Automated remove members who were not active until the time and remove all inactive members.",
