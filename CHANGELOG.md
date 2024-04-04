@@ -2,6 +2,15 @@
 <p>Fixed some bugs<p>
 
 
+## v40.0.5
+- [Fixed] When there is a new update, After update is not restarting
+
+<hr>
+
+# ✨ Changelog
+<p>Fixed some bugs<p>
+
+
 ## v40.0.4
 - [Fixed] Encrypt kernel API
 - [Fixed] When there is a new update the notification to the system admin is not sent
