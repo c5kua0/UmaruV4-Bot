@@ -1,10 +1,20 @@
 # ✨ Changelog
+<p>Fixed some bugs<p>
+
+
+## v40.0.4
+- [Fixed] Encrypt kernel API
+- [Fixed] When there is a new update the notification to the system admin is not sent
+
+<hr>
+
+# ✨ Changelog
 <p>This update is to improve and optimize the UmaruV4 system.<p>
 
 
 ## v40.0.3
 - [New] add file manager in dashboard.
-- [Change] migrate Express to Koa.
+- [Change] migrate Express to Koa
 
 <hr>
 
