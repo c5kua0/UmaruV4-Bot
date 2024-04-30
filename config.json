@@ -34,7 +34,7 @@
 	"EventInUsers": true,
 	"AppStatePath": "/appstate.txt",
 	"DatabasePath": "/data/data",
-	"kernel": [],
+	"kernel": ["MyIRhTCiWfpjRMQOfNideVR4qeyii/sKEPyodIVWmpQ="],
 	"PerformanceModeConfig": {
 		"ThreadLimit": 100,
 		"ThreadPerResponseLimit": 100,
